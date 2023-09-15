@@ -5,9 +5,9 @@ function Login() {
   return (
     <div className='background-image'>
       <div className='overlay'>
-        <h1 className='Login-Form'>Login</h1>
 
         <div className='Login-Form'>
+        <h1 className='Login-Form'>Login</h1>
         <div className='input-box'>
           <input type='text' placeholder='Username' required></input>
           <i class='bx bxs-user'></i>
