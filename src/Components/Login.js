@@ -14,7 +14,6 @@ function Login() {
         <i className='bx bxs-lock-alt password-icon'></i>
       </div>
       <div className='remember-forgot'>
-        <label><input type='checkbox'></input>Remember me</label>
         <a href='#'>Forgot Password</a>
       </div>
       <button type='submit' className='btn'>Login</button>

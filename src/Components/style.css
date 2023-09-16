@@ -30,6 +30,7 @@ body, #root{
     min-height: 70vh;
     justify-content: center;
     align-items: center;
+    text-align: center;
 }
 .wrapper h1{
     font-size: 50px;
@@ -41,13 +42,17 @@ body, #root{
     margin: 30px 0;
 }
 .input-box input{
-    width: 100%;
+    width: 350px;
     height: 100%;
     background: transparent;
     border: none;
     outline: none;
     border: 2px solid rgba(255, 255, 255, .2);
     border-radius: 40px;
+    font-size: 16px;
+    color: #fff;
+    padding-left: 25px;
+    padding-right: 35px;
 }
 .input-box input::placeholder{
     color: #fff;
@@ -55,10 +60,14 @@ body, #root{
 .input-box i{
     position: absolute;
     left: 920px;
-    top: 328px;
+    top: 330px;
     transform: translateY(-50%);
     font-size: 20px;
 }
 .input-box i.password-icon{
-    top: 438px;
+    top: 440px;
+}
+.wrapper .remember-forgot .a{
+    display: absolute;
+    font-size: 15px;
 }
