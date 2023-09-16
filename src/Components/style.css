@@ -1,17 +1,13 @@
-body, #root{
+body{
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-}
-.background-image{
-    background-image: url('./Assests/arthurs-place-dive-resort.jpg');
+    background: url('./Assests/arthurs-place-dive-resort.jpg');
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
-    height: 100vh;
 }
 .overlay{
     position: absolute;
@@ -26,12 +22,16 @@ body, #root{
     flex-direction: column;
     width: 420px;
     color: #fff;
-    background: purple;
+    background: transparent;
+    border: 2px solid rgba(255,255,255, .2);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .2);
     min-height: 70vh;
     justify-content: center;
     align-items: center;
     text-align: center;
     border-radius: 20px;
+    padding: 30px 40px;
 }
 .wrapper h1{
     font-size: 50px;
@@ -68,9 +68,11 @@ body, #root{
 .input-box i.password-icon{
     top: 440px;
 }
-.wrapper .remember-forgot .a{
-    display: absolute;
+.wrapper .remember-forgot{
+    display: flex;
+    justify-content: flex-start;
     font-size: 15px;
+    padding-bottom: 23px;
 }
 .remember-forgot .a{
     accent-color: #fff;
@@ -87,8 +89,12 @@ body, #root{
     border-radius: 40px;
     box-shadow: 0 0 10px rgba(0, 0, 0, .1);
     cursor: pointer; 
-    color: #333;
+    color: rgba(0, 51, 102);
     font-weight: 600;
+}
+.wrapper .btn:hover{
+    background: rgba(0, 51, 102);
+    color: #fff;
 }
 .wrapper .register-link{
     font-size: 14.5px;
