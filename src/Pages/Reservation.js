@@ -1,5 +1,5 @@
 import React from 'react';
-import './styletemp.css'
+import './styletemp.css' 
 
 class Reservation extends React.Component {
   render() {
@@ -25,31 +25,19 @@ class Reservation extends React.Component {
                   <form>
                     <div className="form-group">
                       <span className="form-label">Choose your Room</span>
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="Enter a destination or hotel name"
-                      />
+                      <input className="form-control" type="text" placeholder="Enter a destination or hotel name" />
                     </div>
                     <div className="row">
                       <div className="col-sm-6">
                         <div className="form-group">
                           <span className="form-label">Check In</span>
-                          <input
-                            className="form-control"
-                            type="date"
-                            required
-                          />
+                          <input className="form-control" type="date" required />
                         </div>
                       </div>
                       <div className="col-sm-6">
                         <div className="form-group">
                           <span className="form-label">Check out</span>
-                          <input
-                            className="form-control"
-                            type="date"
-                            required
-                          />
+                          <input className="form-control" type="date" required />
                         </div>
                       </div>
                     </div>

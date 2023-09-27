@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import './style.css';
-import loginImage from './Assests/arthurs-place-anilao.png';
+import loginImage from '../Assests/arthurs-place-anilao.png';
 
-function Login() {
+const  Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -51,42 +51,31 @@ function Login() {
       console.error(error);
     }
   };
+
   return (
     <div className='wrapper'>
-      <div>
-        <img src={loginImage} alt='Arthur Logo'></img>
-      </div>
+      <div> <img src={loginImage} alt='Arthur Logo' /> </div>
       <h1>Login</h1>
+
+      {/* Login Form */}
       <form onSubmit={handleLogin}>
         <div className='input-box'>
-          <input
-            type='text'
-            placeholder='Username'
-            required
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          ></input>
+          <input type='text' placeholder='Username' required value={username} onChange={(e) => setUsername(e.target.value)} ></input>
         </div>
         <div className='input-box'>
-          <input
-            type='password'
-            placeholder='Password'
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          ></input>
+          <input type='password' placeholder='Password' required value={password} onChange={(e) => setPassword(e.target.value)}></input>
         </div>
-        <div className='remember-forgot'>
-          <a href='#'>Forgot Password</a>
-        </div>
-        <button type='submit' className='btn'>
-          Login
-        </button>
+
+        {/* Forgot Password */}
+        <div className='remember-forgot'> <a href='#'>Forgot Password</a> </div>
+
+        {/* Login Button */}
+        <button type='submit' className='btn'>Login</button>
       </form>
+
+      {/* Register Link */}
       <div className='register-link'>
-        <p>
-          Don't have an account? <a href='#'>Register</a>
-        </p>
+        <p> Don't have an account? <a href='#'>Register</a> </p>
       </div>
     </div>
   );

@@ -5,9 +5,10 @@ body{
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: url('./Assests/arthurs-place-dive-resort.jpg');
+    background: url('../Assests//arthurs-place-dive-resort.jpg');
     background-size: cover;
     background-position: center;
+    overflow: hidden;
 }
 .overlay{
     position: absolute;
@@ -74,11 +75,13 @@ body{
     font-size: 15px;
     padding-bottom: 23px;
 }
-.remember-forgot .a{
-    accent-color: #fff;
+.remember-forgot a{
+    color: #ffffff;
+    text-decoration: none;
 }
 .remember-forgot a:hover{
     text-decoration: underline;
+    color: rgba(0, 51, 102);
 }
 .wrapper .btn{
     width: 400px;
@@ -109,4 +112,23 @@ body{
 }
 .register-link p a:hover{
     text-decoration: underline;
+}
+
+@media screen and (max-width: 767px){
+    body{
+        padding: 20px;
+    }
+    form{
+        width: 100%;
+    }
+    .wrapper{
+        width: 80vw;
+        padding: 25px;
+    }
+    .input-box input{
+        width: calc(100% - 20%);
+    }
+    .wrapper .btn{
+        width: 100%;
+    }
 }

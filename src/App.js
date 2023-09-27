@@ -1,10 +1,10 @@
-import Login from "./Components/Login";
-import Reservation from "./Components/Reservation";
+import Login from "./Pages/Login";
+import Reservation from "./Pages/ReservationPage"
 
 function App() {
   return (
     <div className="App">
-      <Login/>
+      <Reservation/>
     </div>
   );
 }
