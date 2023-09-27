@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './style.css';
 import loginImage from '../Assests/arthurs-place-anilao.png';
+import { Link } from 'react-router-dom';
 
 const  Login = () => {
   const [username, setUsername] = useState('');
@@ -67,7 +68,7 @@ const  Login = () => {
         </div>
 
         {/* Forgot Password */}
-        <div className='remember-forgot'> <a href='#'>Forgot Password</a> </div>
+        <div className='remember-forgot'> <Link to='/forgot-password'>Forgot Password</Link> </div>
 
         {/* Login Button */}
         <button type='submit' className='btn'>Login</button>
@@ -75,7 +76,7 @@ const  Login = () => {
 
       {/* Register Link */}
       <div className='register-link'>
-        <p> Don't have an account? <a href='#'>Register</a> </p>
+        <p> Don't have an account? <Link to='/registration'>Register</Link> </p>
       </div>
     </div>
   );
