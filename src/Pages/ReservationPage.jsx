@@ -2,6 +2,19 @@ import React from 'react'
 import './reservation_style.css'
 
 const ReservationPage = () => {
+    const hotels = [
+        { name: "Grand Hotel Riviera" },
+        { name: "Sunset Paradise Resort" },
+        { name: "Ocean View Inn" },
+        { name: "Mountain Retreat Lodge" },
+        { name: "Royal Palace Hotel" },
+        { name: "Cozy Cabin Retreat" },
+        { name: "Beachfront Breeze Hotel" },
+        { name: "Wilderness Lodge" },
+        { name: "Urban Oasis Suites" },
+        { name: "Serenity Resort & Spa" }
+    ];
+
     return (
         <section className='section-container'>
             <div className='container'>
@@ -14,7 +27,12 @@ const ReservationPage = () => {
                 <form>
                     <div className='input-group'>
                         <h4>Choose your Room</h4>
-                        <input className='input-fields' placeholder='Enter a destination or hotel name' required/>
+                        <select className='input-fields' placeholder='Enter a destination or hotel name' required>
+                            <option value={""}>Enter a destination or hotel name</option>
+                        {hotels.map((hotel, indx) => (
+                            <option key={indx} value={hotel}>{hotel}</option>
+                        ))}
+                        </select>
                     </div>
                     <div className='input-group'>
                         <h4>Check In</h4>
