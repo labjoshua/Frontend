@@ -31,13 +31,6 @@ const ReservationPage = () => {
     // Function to handle the "Save changes" button click
     const handleSaveChanges = () => {
         // You can perform actions here, such as sending the data to a server or updating a database
-        // For now, let's just log the data
-        console.log('Name:', name);
-        console.log('Email:', email);
-        console.log('Phone:', phone);
-        console.log('Username:', username);
-        console.log('Password:', password);
-
     };
 
     // Function to handle the check-out date change
