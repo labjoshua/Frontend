@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import './style.css';
 import loginImage from '../Assests/arthurs-place-anilao.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-const  Login = () => {
+const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  const navigate = useNavigate(); // Get the navigation function
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    const serverUrl = 'http://localhost:5000/';
+    const serverUrl = 'http://localhost:5000';
 
     try {
       const response = await fetch(`${serverUrl}/Components/Login`, {
@@ -18,38 +20,26 @@ const  Login = () => {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify({ username, password }),
       });
 
-      const data = await response.json();
-
-      if (data.token) {
-        const token = data.token;
-        makeAuthenticatedRequest(token);
+      if (response.ok) {
+        const responseData = await response.json();
+        if (responseData.accessToken) {
+          const token = responseData.accessToken;
+          localStorage.setItem('access_token', token);
+          // Use the navigate function from useNavigate to navigate to another route
+          navigate('/reservation');
+        } else {
+          console.error('Access token not found in the response.');
+        }
       } else {
-        console.error(data.message);
+        const errorData = await response.json();
+        console.error('Authentication failed:', errorData.message);
       }
     } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const makeAuthenticatedRequest = async (token) => {
-    const serverUrl = 'http://localhost:5000';
-
-    try {
-      const response = await fetch(`${serverUrl}/protected`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-
-      const data = await response.json();
-
-      console.log(data);
-    } catch (error) {
-      console.error(error);
+      console.error('Error:', error);
     }
   };
 
@@ -80,6 +70,6 @@ const  Login = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Login;

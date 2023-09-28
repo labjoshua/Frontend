@@ -12,11 +12,10 @@ class Reservation extends React.Component {
                 <div className="booking-cta">
                   <h1>Make your reservation</h1>
                   <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Animi facere, soluta magnam consectetur molestias itaque ad
-                    sint fugit architecto incidunt iste culpa perspiciatis
-                    possimus voluptates aliquid consequuntur cumque quasi.
-                    Perspiciatis.
+                  Embark on an unforgettable journey with us at Arthur's Place Anilao Resort. 
+                  Dive into the crystal-clear waters of Anilao's renowned dive spots, 
+                  explore the vibrant marine life, and experience the ultimate relaxation amidst stunning natural beauty. 
+                  Your underwater adventure begins here – where every moment is a dive, and every dive is a delight.
                   </p>
                 </div>
               </div>

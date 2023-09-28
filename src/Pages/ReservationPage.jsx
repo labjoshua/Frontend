@@ -1,19 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './reservation_style.css';
 import { Link } from 'react-router-dom';
-
-const hotels = [
-    { id: 1, name: "Grand Hotel Riviera" },
-    { id: 2, name: "Sunset Paradise Resort" },
-    { id: 3, name: "Ocean View Inn" },
-    { id: 4, name: "Mountain Retreat Lodge" },
-    { id: 5, name: "Royal Palace Hotel" },
-    { id: 6, name: "Cozy Cabin Retreat" },
-    { id: 7, name: "Beachfront Breeze Hotel" },
-    { id: 8, name: "Wilderness Lodge" },
-    { id: 9, name: "Urban Oasis Suites" },
-    { id: 10, name: "Serenity Resort & Spa" }
-];
 
 const ReservationPage = () => {
     const [checkInDate, setCheckInDate] = useState('');
@@ -27,6 +14,33 @@ const ReservationPage = () => {
     const [phone, setPhone] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+
+    // State to store room options
+    const [roomOptions, setRoomOptions] = useState([]);
+
+    // Function to fetch room options from the API
+    useEffect(() => {
+        fetchRoomOptions();
+    }, []);
+
+    const fetchRoomOptions = async () => {
+        try {
+            const response = await fetch('http://localhost:5000/Components/RoomInfo', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+                },
+            });
+            if (response.ok) {
+                const roomData = await response.json();
+                setRoomOptions(roomData);
+            } else {
+                console.error('Failed to fetch room options');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
 
     // Function to handle the "Save changes" button click
     const handleSaveChanges = () => {
@@ -120,18 +134,17 @@ const ReservationPage = () => {
             </div>
             <div className='px-4 reserve-container z-1'>
                 <h1>Make your Reservation</h1>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Animi facere, soluta magnam consectetur molestias itaque ad
-                    sint fugit architecto incidunt iste culpa perspiciatis
-                    possimus voluptates aliquid consequuntur cumque quasi.
-                    Perspiciatis.</p>
+                <p>Embark on an unforgettable journey with us at Arthur's Place Anilao Resort. 
+                  Dive into the crystal-clear waters of Anilao's renowned dive spots, 
+                  explore the vibrant marine life, and experience the ultimate relaxation amidst stunning natural beauty. 
+                  Your underwater adventure begins here – where every moment is a dive, and every dive is a delight.</p>
                 <form className='w-100' onSubmit={handleSubmit}>
                     <div className='input-groups w-100 d-flex justify-content-between pb-3'>
                         <h4>Choose your Room</h4>
                         <select className='reserve-select-field' required onChange={handleHotelChange}>
-                            <option value="" hidden>Enter a hotel name</option>
-                            {hotels.map((hotel, indx) => (
-                                <option key={indx} value={hotel.name}>{hotel.name}</option>
+                            <option value="" hidden>Choose a room</option>
+                            {roomOptions.map((room, indx) => (
+                                <option key={indx} value={room.roomName}>{room.roomName}</option>
                             ))}
                         </select>
                     </div>

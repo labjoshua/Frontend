@@ -16,7 +16,7 @@ const Registration = () => {
                 <button className='form-btn'>Create Account</button>
             </form>
             <div className='d-flex w-100 ps-5 pt-3 align-items-start'>
-                <span>Already have an account? <Link to='/reservation' className='text-decoration-none'>Sign In</Link> instead</span>
+                <span>Already have an account? <Link to='/' className='text-decoration-none'>Sign In</Link> instead</span>
             </div>
         </main>
     )
