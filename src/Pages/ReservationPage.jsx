@@ -32,6 +32,32 @@ const ReservationPage = () => {
         userPass: ''
     });
 
+    const handleLogout = async () => {
+        try {
+            // Send a POST request to the logout endpoint on your server
+            const response = await fetch('http://localhost:5000/logout', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+                },
+                credentials: 'include'  // Include credentials to allow cookies to be sent
+            });
+    
+            if (response.ok) {
+                // Clear local storage items and navigate to the login page
+                localStorage.removeItem('access_token');
+                localStorage.removeItem('userID');
+                localStorage.removeItem('username');
+                window.location.href = '/'; // Redirect to the login page
+            } else {
+                // Handle error, e.g., show an error message to the user
+                console.error('Logout failed');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
     const handleUpdateUserInfo = async () => {
         const accessToken = localStorage.getItem('access_token');
         const guestID = localStorage.getItem('userID');
@@ -210,7 +236,7 @@ const ReservationPage = () => {
                 <button id="dropdown-btn" className='btn btn-primary'>Action</button>
                 <ul id="dropdown-menu" className='z-3'>
                     <li ><button type='button' className='edit' data-bs-toggle="modal" data-bs-target="#exampleModal">Edit Profile</button></li>
-                    <li><Link to="/" style={{textDecoration: 'none', color: 'black'}}>Logout</Link></li>
+                    <li><button type='button' onClick={handleLogout} style={{ textDecoration: 'none', color: 'black', background: 'none', border: 'none', cursor: 'pointer' }}>Logout</button></li>
                 </ul>
             </nav>
             <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -244,7 +270,7 @@ const ReservationPage = () => {
             </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-primary" onClick={handleUpdateUserInfo}>Save changes</button>
+                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={handleUpdateUserInfo}>Save changes</button>
                         </div>
                     </div>
                 </div>

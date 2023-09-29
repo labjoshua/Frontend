@@ -42,6 +42,7 @@ const Registration = () => {
                 if (response.ok) {
                     const data = await response.json();
                     alert(data.message); // Handle success response
+                    window.location.href = '/';
                 } else {
                     const errorData = await response.json();
                     alert(errorData.message); // Handle error response

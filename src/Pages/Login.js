@@ -40,6 +40,7 @@ const Login = () => {
                 localStorage.setItem('username', usID)
                 navigate('/reservation');
             } else {
+                alert('Incorrect username or password!')
                 const errorData = await response.json();
                 console.error('Authentication failed:', errorData.message);
             }
