@@ -23,6 +23,78 @@ const ReservationPage = () => {
         fetchRoomOptions();
     }, []);
 
+
+    const [modalUserData, setModalUserData] = useState({
+        guestName: '',
+        guestContactInfo: '',
+        guestEmail: '',
+        userName: '',
+        userPass: ''
+    });
+
+    const handleUpdateUserInfo = async () => {
+        const accessToken = localStorage.getItem('access_token');
+        const guestID = localStorage.getItem('userID');
+    
+        try {
+            const response = await fetch('http://localhost:5000/Components/UpdateInfo', {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                },
+                body: JSON.stringify({
+                    guestID,
+                    guestName: name || modalUserData.guestName,
+                    guestContactInfo: phone || modalUserData.guestContactInfo,
+                    guestEmail: email || modalUserData.guestEmail,
+                    userName: username || modalUserData.userName,
+                    userPass: password || modalUserData.userPass
+                }),
+            });
+    
+            if (response.ok) {
+                const responseData = await response.json();
+                alert('User information updated successfully:', responseData.message);
+                // Handle success, e.g., show a success message to the user
+            } else {
+                const errorData = await response.json();
+                console.error('Error updating user information:', errorData.message);
+                // Handle error, e.g., show an error message to the user
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            // Handle error, e.g., show an error message to the user
+        }
+    };
+
+    // Function to fetch user data for modal inputs
+    useEffect(() => {
+        const usrID = localStorage.getItem('userID');
+        const accessToken = localStorage.getItem('access_token');
+    
+        fetch(`http://localhost:5000/Components/FetchAccountInfo?usrID=${usrID}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error('Network response was not ok.');
+        })
+        .then(data => {
+            // Set the modalUserData state with the fetched data
+            setModalUserData(data[0]); // Assuming the API returns an array with a single user object
+        })
+        .catch(error => {
+            console.error('Error fetching user data:', error);
+        });
+    }, []);
+
+
     const fetchRoomOptions = async () => {
         try {
             const response = await fetch('http://localhost:5000/Components/RoomInfo', {
@@ -62,28 +134,75 @@ const ReservationPage = () => {
     };
 
     // Function to handle hotel selection
-    const handleHotelChange = (event) => {
-        setSelectedHotel(event.target.value);
-    };
-
-    // Function to handle form submission
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        if (isValid) {
-            // Construct the reservation data
-            const reservationData = {
-                hotel: selectedHotel,
-                checkInDate: checkInDate,
-                checkOutDate: checkOutDate
-            };
-
-            // Display an alert with the reservation data
-            alert(`Reservation Data:\nHotel: ${reservationData.hotel}\nCheck-in Date: ${reservationData.checkInDate}\nCheck-out Date: ${reservationData.checkOutDate}`);
+    const handleHotelChange = (selectedRoomName) => {
+        console.log("Selected Room Name:", selectedRoomName);
+        const selectedRoom = roomOptions.find(room => room.roomName === selectedRoomName);
+        console.log("Selected Room:", selectedRoom);
+        if (selectedRoom) {
+            setSelectedHotel(selectedRoom.roomID);
         } else {
-            // Display an error message or handle the invalid submission
-            console.error('Invalid reservation dates!');
+            // Handle the case when the selected room is not found
+            setSelectedHotel(''); // Reset selectedHotel to empty string
         }
     };
+    
+    // Function to get the value of a cookie by name
+    const getCookie = (name) => {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+        return null;
+    };
+    
+    
+
+    // Function to handle form submission
+    const handleSubmit = async (event) => {
+        console.log(roomOptions)
+        event.preventDefault();
+    
+        // Get data from cookies
+        const guestID = localStorage.getItem('userID')// Assuming 'userID' is the name of the cookie storing guestID
+        const roomID = selectedHotel; // Assuming selectedHotel is the room ID selected from the dropdown
+        const reservationDateFrom = checkInDate;
+        const reservationDateTo = checkOutDate;
+        const reservationStatus = 'Online'; // Assuming reservationStatus is always 'Online'
+    
+        try {
+            const response = await fetch('http://localhost:5000/Components/Reservation', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+                },
+                body: JSON.stringify({
+                    guestID,
+                    roomID,
+                    reservationDateFrom,
+                    reservationDateTo,
+                    reservationStatus
+                }),
+            });
+    
+            if (response.ok) {
+                const responseData = await response.json();
+                alert('Reservation successful:', responseData.message);
+                // Handle success, e.g., show a success message to the user
+                setCheckInDate('');
+                setCheckOutDate('');
+                setSelectedHotel('');
+            } else {
+                const errorData = await response.json();
+                console.error('Error:', errorData.message);
+                // Handle error, e.g., show an error message to the user
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            // Handle error, e.g., show an error message to the user
+        }
+    };
+        
 
     return (
         <section className='section-container z-0'>
@@ -102,32 +221,30 @@ const ReservationPage = () => {
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
-
-                            <div className="mb-3">
-                                <label htmlFor="name" className="form-label">Name</label>
-                                <input onChange={(e) => setName(e.target.value)} value={name} name='name' type="text" className="form-control" id="name" placeholder="Enter your name" />
-                            </div>
-                            <div className="mb-3">
-                                <label htmlFor="username" className="form-label">User Name</label>
-                                <input onChange={(e) => setUsername(e.target.value)} value={username} name='username' type="text" className="form-control" id="username" placeholder="Enter your User Name" />
-                            </div>
-                            <div className="mb-3">
-                                <label htmlFor="phone" className="form-label">Mobile Number</label>
-                                <input onChange={(e) => setPhone(e.target.value)} value={phone} name='phone' type="telephone" className="form-control" id="phone" placeholder="Enter your Mobile number" />
-                            </div>
-                            <div className="mb-3">
-                                <label htmlFor="email" className="form-label">Email Address</label>
-                                <input onChange={(e) => setEmail(e.target.value)} value={email} name='email' type="email" className="form-control" id="email" placeholder="Enter your email address" />
-                            </div>
-                            <div className="mb-3">
-                                <label htmlFor="password" className="form-label">Password</label>
-                                <input onChange={(e) => setPassword(e.target.value)} value={password} name='password' type="password" className="form-control" id="password" placeholder="Enter your new Password" />
-                            </div>
-
-                        </div>
+                <div className="mb-3">
+                    <label htmlFor="name" className="form-label">Name</label>
+                    <input onChange={(e) => setName(e.target.value)} value={name || modalUserData.guestName} name='name' type="text" className="form-control" id="name" placeholder="Enter your name" />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="username" className="form-label">User Name</label>
+                    <input onChange={(e) => setUsername(e.target.value)} value={username || modalUserData.userName} name='username' type="text" className="form-control" id="username" placeholder="Enter your User Name" />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="phone" className="form-label">Mobile Number</label>
+                    <input onChange={(e) => setPhone(e.target.value)} value={phone || modalUserData.guestContactInfo} name='phone' type="telephone" className="form-control" id="phone" placeholder="Enter your Mobile number" />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="email" className="form-label">Email Address</label>
+                    <input onChange={(e) => setEmail(e.target.value)} value={email || modalUserData.guestEmail} name='email' type="email" className="form-control" id="email" placeholder="Enter your email address" />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="password" className="form-label">Password</label>
+                    <input onChange={(e) => setPassword(e.target.value)} value={password || modalUserData.userPass} name='password' type="password" className="form-control" id="password" placeholder="Enter your new Password" />
+                </div>
+            </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-primary" onClick={handleSaveChanges}>Save changes</button>
+                            <button type="button" className="btn btn-primary" onClick={handleUpdateUserInfo}>Save changes</button>
                         </div>
                     </div>
                 </div>
@@ -141,12 +258,12 @@ const ReservationPage = () => {
                 <form className='w-100' onSubmit={handleSubmit}>
                     <div className='input-groups w-100 d-flex justify-content-between pb-3'>
                         <h4>Choose your Room</h4>
-                        <select className='reserve-select-field' required onChange={handleHotelChange}>
-                            <option value="" hidden>Choose a room</option>
-                            {roomOptions.map((room, indx) => (
-                                <option key={indx} value={room.roomName}>{room.roomName}</option>
-                            ))}
-                        </select>
+                        <select className='reserve-select-field' required onChange={(e) => handleHotelChange(e.target.value)}>
+                        <option value="" hidden>Choose a room</option>
+                        {roomOptions.map((room, indx) => (
+                            <option key={indx} value={room.roomName}>{room.roomName}</option>
+                        ))}
+                    </select>
                     </div>
                     <div className='input-groups w-100 d-flex justify-content-between pb-3'>
                         <h4>Check In</h4>
