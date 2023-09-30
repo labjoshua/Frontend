@@ -20,7 +20,13 @@ const ReservationPage = () => {
 
     // Function to fetch room options from the API
     useEffect(() => {
+        if (isTokenExpired()){
+            alert('Session Expired, Login again!')
+            handleLogout();
+            return
+        }
         fetchRoomOptions();
+
     }, []);
 
 
@@ -31,6 +37,11 @@ const ReservationPage = () => {
         userName: '',
         userPass: ''
     });
+
+    function isTokenExpired (){
+        const expiresAt = localStorage.getItem('expires_at')
+        return expiresAt && Date.now() > parseInt(expiresAt)
+    }
 
     const handleLogout = async () => {
         try {
@@ -48,6 +59,7 @@ const ReservationPage = () => {
                 localStorage.removeItem('access_token');
                 localStorage.removeItem('userID');
                 localStorage.removeItem('username');
+                localStorage.removeItem('expires_at')
                 window.location.href = '/'; // Redirect to the login page
             } else {
                 // Handle error, e.g., show an error message to the user
@@ -59,6 +71,10 @@ const ReservationPage = () => {
     };
 
     const handleUpdateUserInfo = async () => {
+        if (isTokenExpired()){
+            handleLogout();
+            return
+        }
         const accessToken = localStorage.getItem('access_token');
         const guestID = localStorage.getItem('userID');
     
@@ -96,6 +112,10 @@ const ReservationPage = () => {
 
     // Function to fetch user data for modal inputs
     useEffect(() => {
+        if (isTokenExpired()){
+            handleLogout();
+            return
+        }
         const usrID = localStorage.getItem('userID');
         const accessToken = localStorage.getItem('access_token');
     
@@ -122,6 +142,10 @@ const ReservationPage = () => {
 
 
     const fetchRoomOptions = async () => {
+        if (isTokenExpired()){
+            handleLogout();
+            return
+        }
         try {
             const response = await fetch('http://localhost:5000/Components/RoomInfo', {
                 method: 'GET',
@@ -184,6 +208,11 @@ const ReservationPage = () => {
 
     // Function to handle form submission
     const handleSubmit = async (event) => {
+        if (isTokenExpired()){
+            alert('Session Expired, Login again!')
+            handleLogout();
+            return
+        }
         console.log(roomOptions)
         event.preventDefault();
     

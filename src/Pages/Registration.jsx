@@ -15,6 +15,11 @@ const Registration = () => {
         setPasswordsMatch(value === confirmPassword);
     };
 
+
+    function isTokenExpired (){
+        const expiresAt = localStorage.getItem('expires_at')
+        return expiresAt && Date.now() > parseInt(expiresAt)
+    }
     const handleConfirmPasswordChange = (value) => {
         setConfirmPassword(value);
         setPasswordsMatch(value === password);

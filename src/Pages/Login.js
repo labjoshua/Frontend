@@ -34,10 +34,12 @@ const Login = () => {
                 const token = responseData.accessToken
                 const usr = responseData.uId
                 const usID = responseData.user
+                const expiresAtt = responseData.expiresAt
 
                 localStorage.setItem('access_token', token);
                 localStorage.setItem('userID', usr)
                 localStorage.setItem('username', usID)
+                localStorage.setItem('expires_at', expiresAtt);
                 navigate('/reservation');
             } else {
                 alert('Incorrect username or password!')
