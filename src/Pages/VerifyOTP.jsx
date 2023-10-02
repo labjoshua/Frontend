@@ -9,7 +9,7 @@ const VerifyOTP = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('/Components/verifying-OTP', {
+            const response = await fetch('http://134.209.98.49:5000/Components/verifying-OTP', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
