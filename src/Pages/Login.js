@@ -19,7 +19,7 @@ const Login = () => {
         e.preventDefault();
 
         try {
-            const response = await fetch(`/Components/Login`, {
+            const response = await fetch(`http://134.209.98.49:5000/Components/Login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
