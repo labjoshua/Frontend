@@ -86,7 +86,7 @@ const ReservationPage = () => {
                     'Authorization': `Bearer ${accessToken}`
                 },
                 body: JSON.stringify({
-                    guestID,
+                    guestID: guestID,
                     guestName: name || modalUserData.guestName,
                     guestContactInfo: phone || modalUserData.guestContactInfo,
                     guestEmail: email || modalUserData.guestEmail,
@@ -239,16 +239,15 @@ const ReservationPage = () => {
                     reservationStatus
                 }),
             });
-    
+            const responseData = await response.json();
             if (response.ok) {
-                const responseData = await response.json();
-                alert('Reservation successful:', responseData.message);
+                alert('Reservation successful:');
                 // Handle success, e.g., show a success message to the user
                 setCheckInDate('');
                 setCheckOutDate('');
                 setSelectedHotel('');
             } else {
-                const errorData = await response.json();
+                const errorData = await responseData.json();
                 console.error('Error:', errorData.message);
                 // Handle error, e.g., show an error message to the user
             }

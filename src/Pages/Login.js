@@ -17,10 +17,9 @@ const Login = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        const serverUrl = 'http://localhost:5000';
 
         try {
-            const response = await fetch(`${serverUrl}/Components/Login`, {
+            const response = await fetch(`/Components/Login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
