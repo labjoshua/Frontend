@@ -46,7 +46,7 @@ const ReservationPage = () => {
     const handleLogout = async () => {
         try {
             // Send a POST request to the logout endpoint on your server
-            const response = await fetch('http://localhost:5000/logout', {
+            const response = await fetch('http://134.209.98.49:5000/logout', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('access_token')}`
@@ -79,7 +79,7 @@ const ReservationPage = () => {
         const guestID = localStorage.getItem('userID');
     
         try {
-            const response = await fetch('http://localhost:5000/Components/UpdateInfo', {
+            const response = await fetch('http://134.209.98.49:5000/Components/UpdateInfo', {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -119,7 +119,7 @@ const ReservationPage = () => {
         const usrID = localStorage.getItem('userID');
         const accessToken = localStorage.getItem('access_token');
     
-        fetch(`http://localhost:5000/Components/FetchAccountInfo?usrID=${usrID}`, {
+        fetch(`http://134.209.98.49:5000/Components/FetchAccountInfo?usrID=${usrID}`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${accessToken}`
@@ -147,7 +147,7 @@ const ReservationPage = () => {
             return
         }
         try {
-            const response = await fetch('http://localhost:5000/Components/RoomInfo', {
+            const response = await fetch('http://134.209.98.49:5000/Components/RoomInfo', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('access_token')}`
@@ -224,7 +224,7 @@ const ReservationPage = () => {
         const reservationStatus = 'Online'; // Assuming reservationStatus is always 'Online'
     
         try {
-            const response = await fetch('http://localhost:5000/Components/Reservation', {
+            const response = await fetch('http://134.209.98.49:5000/Components/Reservation', {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
