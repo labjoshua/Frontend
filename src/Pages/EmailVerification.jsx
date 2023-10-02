@@ -9,7 +9,7 @@ const EmailVerification = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('/Components/forgotpassword', {
+            const response = await fetch('http://134.209.98.49:5000/Components/forgotpassword', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
