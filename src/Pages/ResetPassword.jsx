@@ -18,7 +18,7 @@ const ResetPassword = () => {
         }
 
         try {
-            const response = await fetch('/Components/UpdatePassword', {
+            const response = await fetch('http://134.209.98.49:5000/Components/UpdatePassword', {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
