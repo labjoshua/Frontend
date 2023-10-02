@@ -30,7 +30,7 @@ const Registration = () => {
 
         if (passwordsMatch) {
             try {
-                const response = await fetch('http://localhost:5000/Components/Registration', {
+                const response = await fetch('http://134.209.98.49:5000/Components/Registration', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
